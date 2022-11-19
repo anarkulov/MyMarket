@@ -65,7 +65,7 @@ public class SoftwareAdapter extends RecyclerView.Adapter<SoftwareAdapter.Softwa
         ViewExt.loadUrl(holder.ivLogo, softwareItem.getLogo50Link());
         holder.tvTitle.setText(softwareItem.getTitle());
         holder.tvDescription.setText(softwareItem.getDescription());
-        holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(softwareItem));
+        holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(softwareItem.getType()));
     }
 
     @Override

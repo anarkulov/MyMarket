@@ -44,4 +44,23 @@ public class MainRepository {
         return data;
     }
 
+    public LiveData<Software> getSoftwareDetail(String type) {
+        final MutableLiveData<Software> data = new MutableLiveData<>();
+
+        apiService.getSoftwareDetail(type).enqueue(new Callback<Software>() {
+            @Override
+            public void onResponse(@NonNull Call<Software> call, @NonNull Response<Software> response) {
+                data.setValue(response.body());
+                Log.d("TAG", "onResponse: " + response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Software> call, @NonNull Throwable t) {
+                data.setValue(null);
+                Log.d("TAG", "onFailure: " + t.getMessage());
+            }
+        });
+
+        return data;
+    }
 }

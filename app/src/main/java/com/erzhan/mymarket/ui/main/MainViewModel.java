@@ -19,4 +19,8 @@ public class MainViewModel extends ViewModel {
     public LiveData<List<Software>> getSoftwareList() {
         return mainRepository.getSoftwareList();
     }
+
+    public LiveData<Software> getSoftwareDetail(String type) {
+        return mainRepository.getSoftwareDetail(type);
+    }
 }

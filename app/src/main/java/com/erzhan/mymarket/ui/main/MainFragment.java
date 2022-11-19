@@ -8,6 +8,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewbinding.ViewBinding;
 
@@ -46,8 +48,10 @@ public class MainFragment extends Fragment {
         binding.recyclerView.setAdapter(softwareAdapter);
     }
 
-    private void onItemClick(Software software) {
-        Log.d("TAG", "onItemClick: " + software.getTitle());
+    private void onItemClick(String type) {
+        Log.d("TAG", "onItemClick: " + type);
+
+        Navigation.findNavController(binding.getRoot()).navigate(MainFragmentDirections.actionMainFragmentToSoftwareDetailFragment(type));
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -68,15 +72,11 @@ public class MainFragment extends Fragment {
         if (view == null) {
             binding = FragmentMainBinding.inflate(inflater, container, false);
             view = binding.getRoot();
+            initViews();
+            initViewModels();
         } else {
             binding = FragmentMainBinding.bind(view);
         }
-        initViews();
-        initViewModels();
         return binding.getRoot();
-    }
-
-    public static MainFragment newInstance() {
-        return new MainFragment();
     }
 }

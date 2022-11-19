@@ -9,7 +9,7 @@ public class OnClickListeners {
     }
 
     public interface OnSoftwareItemClickListener {
-        void onItemClick(Software software);
+        void onItemClick(String type);
     }
 
 }

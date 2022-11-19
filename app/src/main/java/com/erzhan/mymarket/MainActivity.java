@@ -1,21 +1,25 @@
 package com.erzhan.mymarket;
 
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import android.os.Bundle;
 
-import com.erzhan.mymarket.ui.main.MainFragment;
-
 public class MainActivity extends AppCompatActivity {
+
+    private NavController navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
-                    .commitNow();
-        }
+        new WindowInsetsControllerCompat(getWindow(), getWindow().getDecorView()).setAppearanceLightStatusBars(true);
+
+        initNavigation();
+    }
+
+    private void initNavigation() {
+        navController = Navigation.findNavController(this, R.id.container);
     }
 }
