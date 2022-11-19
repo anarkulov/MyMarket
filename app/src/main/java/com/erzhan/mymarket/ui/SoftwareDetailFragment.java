@@ -26,9 +26,7 @@ public class SoftwareDetailFragment extends Fragment {
     private FragmentSoftwareDetailBinding binding;
     private View view;
 
-    public SoftwareDetailFragment() {
-        // Required empty public constructor
-    }
+    public SoftwareDetailFragment() {}
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

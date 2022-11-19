@@ -5,4 +5,5 @@
     <string name="software_logo_cd">Software Logo</string>
     <string name="update">Установить</string>
     <string name="uninstall">Удалить</string>
+    <string name="description">Описание</string>
 </resources>
