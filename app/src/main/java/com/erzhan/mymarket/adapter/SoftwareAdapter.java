@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.erzhan.mymarket.R;
 import com.erzhan.mymarket.data.models.Software;
+import com.erzhan.mymarket.ext.CommonExt;
 import com.erzhan.mymarket.ext.ViewExt;
 import com.erzhan.mymarket.interf.OnClickListeners;
 
@@ -27,13 +28,14 @@ public class SoftwareAdapter extends RecyclerView.Adapter<SoftwareAdapter.Softwa
     }
 
     public class SoftwareViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivLogo;
+        ImageView ivLogo, ivStatus;
         TextView tvTitle, tvDescription;
 
         public SoftwareViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ivLogo = itemView.findViewById(R.id.iv_logo);
+            ivStatus = itemView.findViewById(R.id.iv_status);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvDescription = itemView.findViewById(R.id.tv_description);
         }
@@ -48,10 +50,22 @@ public class SoftwareAdapter extends RecyclerView.Adapter<SoftwareAdapter.Softwa
 
     @Override
     public void onBindViewHolder(@NonNull SoftwareAdapter.SoftwareViewHolder holder, int position) {
-        ViewExt.loadUrl(holder.ivLogo, softwareList.get(position).getLogo50Link());
-        holder.tvTitle.setText(softwareList.get(position).getTitle());
-        holder.tvDescription.setText(softwareList.get(position).getDescription());
-        holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(softwareList.get(position)));
+        Software softwareItem = softwareList.get(holder.getAdapterPosition());
+
+        if (CommonExt.isPackageInstalled(softwareItem.getType(), holder.itemView.getContext().getPackageManager())) {
+            holder.ivStatus.setImageResource(R.drawable.ic_installed);
+        } else if (CommonExt.isFileDownloaded(softwareItem.getLink())) {
+            holder.ivStatus.setImageResource(R.drawable.ic_downloaded);
+        } else if (CommonExt.isVersionHigher(softwareItem.getType(), holder.itemView.getContext().getPackageManager(), softwareItem.getAppVersion())) {
+            holder.ivStatus.setImageResource(R.drawable.ic_update);
+        } else {
+            holder.ivStatus.setImageResource(R.drawable.ic_download);
+        }
+
+        ViewExt.loadUrl(holder.ivLogo, softwareItem.getLogo50Link());
+        holder.tvTitle.setText(softwareItem.getTitle());
+        holder.tvDescription.setText(softwareItem.getDescription());
+        holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(softwareItem));
     }
 
     @Override
