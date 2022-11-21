@@ -101,6 +101,7 @@ public class SoftwareDetailFragment extends Fragment {
                         binding.progressBar.setVisibility(View.INVISIBLE);
                         DownloadHelper.stopDownloadService(requireContext());
                         checkForStatus();
+                        mViewModel.getSoftwareList();
                     }
                 }
             }
@@ -128,6 +129,8 @@ public class SoftwareDetailFragment extends Fragment {
             } else {
                 DownloadHelper.downloadFile(software.getLink(), software.getPackageName(), requireContext());
                 binding.progressBar.setVisibility(View.VISIBLE);
+                binding.btnDownloadInstallUpdate.setEnabled(false);
+                binding.btnDownloadInstallUpdate.setText("Скачивается...");
             }
         });
     }

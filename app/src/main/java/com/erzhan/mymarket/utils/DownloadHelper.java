@@ -207,29 +207,28 @@ public class DownloadHelper {
         BroadcastReceiver onComplete = new BroadcastReceiver() {
             public void onReceive(Context ctxt, Intent intent) {
                 Intent install;
+                File file = new File(fileDestinationPath);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     Uri contentUri = FileProvider.getUriForFile(
                             ctxt,
                             BuildConfig.APPLICATION_ID + ".provider",
-                            new File(fileDestinationPath));
+                            file);
 
                     install = new Intent(Intent.ACTION_VIEW);
                     install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     install.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     install.putExtra(Intent.EXTRA_NOT_UNKNOWN_SOURCE, true);
                     install.setData(contentUri);
+                    Log.d("TAG", "N. FileDestinationPath: " + file.getPath() + "\nUri: " + uri);
                     try {
                         ctxt.startActivity(install);
-                        File file = new File(fileDestinationPath);
-                        if (file.exists()) {
-                            file.delete();
-                        }
                     } catch (Exception e) {
                         Log.d("TAG", "Error to Install: " + e.getMessage());
                     } finally {
                         ctxt.unregisterReceiver(this);
                     }
                 } else {
+                    Log.d("TAG", "FileDestinationPath: " + fileDestinationPath + "\nUri: " + uri);
                     install = new Intent(Intent.ACTION_VIEW);
                     install.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     install.setDataAndType(uri, "application/vnd.android.package-archive");

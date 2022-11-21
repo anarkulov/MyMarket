@@ -41,10 +41,11 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         softwareList = new ArrayList<>();
+        softwareAdapter = new SoftwareAdapter(softwareList, this::onItemClick);
+        mViewModel.getSoftwareList();
     }
 
     private void initViews() {
-        softwareAdapter = new SoftwareAdapter(softwareList, this::onItemClick);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         binding.recyclerView.setAdapter(softwareAdapter);
     }
@@ -57,7 +58,7 @@ public class MainFragment extends Fragment {
 
     @SuppressLint("NotifyDataSetChanged")
     private void initViewModels() {
-        mViewModel.getSoftwareList().observe(getViewLifecycleOwner(), softwareList -> {
+        mViewModel.getSoftwareListLiveData().observe(getViewLifecycleOwner(), softwareList -> {
             if (softwareList != null) {
                 this.softwareList.clear();
                 this.softwareList.addAll(softwareList);

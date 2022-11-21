@@ -127,7 +127,11 @@ public class MainService extends Service {
                             int bytesDownloaded = cursor.getInt(columnIndexOfBytes);
                             int columnIndexOfBytesTotal = cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES) >= 0 ? cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES) : 0;
                             int bytesTotal = cursor.getInt(columnIndexOfBytesTotal);
-                            progress = (int) ((bytesDownloaded * 100l) / bytesTotal);
+                            try {
+                                progress = (int) ((bytesDownloaded * 100l) / bytesTotal);
+                            } catch (ArithmeticException e) {
+                                e.printStackTrace();
+                            }
                             break;
                     }
 

@@ -10,13 +10,18 @@ import java.util.List;
 public class MainViewModel extends ViewModel {
 
     private MainRepository mainRepository;
+    private LiveData<List<Software>> softwareListLiveData;
 
     public MainViewModel() {
         mainRepository = new MainRepository();
     }
 
-    public LiveData<List<Software>> getSoftwareList() {
-        return mainRepository.getSoftwareList();
+    public void getSoftwareList() {
+        softwareListLiveData = mainRepository.getSoftwareList();
+    }
+
+    public LiveData<List<Software>> getSoftwareListLiveData() {
+        return softwareListLiveData;
     }
 
     public LiveData<Software> getSoftwareDetail(String type) {
