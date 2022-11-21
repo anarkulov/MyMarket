@@ -220,6 +220,10 @@ public class DownloadHelper {
                     install.setData(contentUri);
                     try {
                         ctxt.startActivity(install);
+                        File file = new File(fileDestinationPath);
+                        if (file.exists()) {
+                            file.delete();
+                        }
                     } catch (Exception e) {
                         Log.d("TAG", "Error to Install: " + e.getMessage());
                     } finally {

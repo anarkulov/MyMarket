@@ -59,6 +59,7 @@ public class SoftwareDetailFragment extends Fragment {
     }
 
     private void checkForStatus() {
+        if (software == null) return;
         if (DownloadHelper.isPackageInstalled(software.getPackageName(), requireContext().getPackageManager())) {
             binding.btnUninstall.setVisibility(View.VISIBLE);
             if (DownloadHelper.isVersionHigher(software.getPackageName(), requireContext().getPackageManager(), software.getAppVersion())) {
@@ -161,6 +162,7 @@ public class SoftwareDetailFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        checkForStatus();
         if (receiver != null) {
             requireContext().registerReceiver(receiver, new IntentFilter("download_progress"));
         }
