@@ -83,7 +83,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/update"
+                android:text="@string/install"
                 android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/btn_uninstall"
                 app:layout_constraintHorizontal_bias="0.5"

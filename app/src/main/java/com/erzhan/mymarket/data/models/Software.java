@@ -3,6 +3,8 @@ package com.erzhan.mymarket.data.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Objects;
+
 public class Software {
     @SerializedName("link")
     @Expose
@@ -42,6 +44,11 @@ public class Software {
 
     public String getType() {
         return type;
+    }
+
+    public String getPackageName() {
+        String packageName = Objects.equals(type, "market") ? "com.UCMobile.intl" : type;
+        return packageName;
     }
 
     public String getLogo50Link() {

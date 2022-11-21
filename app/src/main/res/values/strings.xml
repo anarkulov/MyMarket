@@ -3,8 +3,12 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="software_logo_cd">Software Logo</string>
-    <string name="update">Установить</string>
+    <string name="update">Обновить</string>
     <string name="uninstall">Удалить</string>
     <string name="description">Описание</string>
     <string name="channel_id">MyMarket</string>
+    <string name="installed">Установлено</string>
+    <string name="downloaded">Скачано но не установлено</string>
+    <string name="download">Можно установить</string>
+    <string name="install">Установить</string>
 </resources>

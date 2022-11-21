@@ -53,9 +53,15 @@ public class SoftwareDetailFragment extends Fragment {
         binding.tvVersion.setText(software.getAppVersion());
         ViewExt.loadUrl(binding.ivLogo, software.getLogo50Link());
 
-        if (DownloadHelper.isPackageInstalled(software.getType(), requireContext().getPackageManager())) {
+        checkForStatus();
+
+        initListeners();
+    }
+
+    private void checkForStatus() {
+        if (DownloadHelper.isPackageInstalled(software.getPackageName(), requireContext().getPackageManager())) {
             binding.btnUninstall.setVisibility(View.VISIBLE);
-            if (DownloadHelper.isVersionHigher(software.getType(), requireContext().getPackageManager(), software.getAppVersion())) {
+            if (DownloadHelper.isVersionHigher(software.getPackageName(), requireContext().getPackageManager(), software.getAppVersion())) {
                 binding.btnDownloadInstallUpdate.setVisibility(View.VISIBLE);
                 binding.btnDownloadInstallUpdate.setText("Обновить");
             } else {
@@ -71,8 +77,6 @@ public class SoftwareDetailFragment extends Fragment {
             binding.btnDownloadInstallUpdate.setVisibility(View.VISIBLE);
             binding.btnDownloadInstallUpdate.setText("Скачать и установить");
         }
-
-        initListeners();
     }
 
     private void initView() {
@@ -85,18 +89,17 @@ public class SoftwareDetailFragment extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 String type = intent.getStringExtra("type");
                 Log.d("TAG", "onReceive: " + type);
-                if (type.equals(software.getType())) {
+                if (type.equals(software.getPackageName())) {
                     int downloadProgress = intent.getIntExtra("progress", 0);
                     Log.d("TAG", "onReceive: " + downloadProgress);
                     binding.progressBar.setProgress(downloadProgress);
                     binding.btnDownloadInstallUpdate.setEnabled(false);
                     binding.btnDownloadInstallUpdate.setText("Скачивается...");
                     if (downloadProgress == 100) {
-                        binding.btnDownloadInstallUpdate.setText("Открыть");
                         binding.btnDownloadInstallUpdate.setEnabled(true);
-                        binding.btnDownloadInstallUpdate.setVisibility(View.VISIBLE);
                         binding.progressBar.setVisibility(View.INVISIBLE);
                         DownloadHelper.stopDownloadService(requireContext());
+                        checkForStatus();
                     }
                 }
             }
@@ -106,23 +109,24 @@ public class SoftwareDetailFragment extends Fragment {
         binding.actionBack.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
 
         binding.btnUninstall.setOnClickListener(v -> {
-            DownloadHelper.uninstallApp(navArgs.getType(), requireContext());
+            DownloadHelper.uninstallApp(software.getPackageName(), requireContext());
             binding.btnUninstall.setVisibility(View.GONE);
             binding.btnDownloadInstallUpdate.setVisibility(View.VISIBLE);
             binding.btnDownloadInstallUpdate.setText("Скачать и установить");
         });
 
         binding.btnDownloadInstallUpdate.setOnClickListener(v -> {
-            if (DownloadHelper.isPackageInstalled(navArgs.getType(), requireContext().getPackageManager())) {
-                if (DownloadHelper.isVersionHigher(navArgs.getType(), requireContext().getPackageManager(), software.getAppVersion())) {
+            if (DownloadHelper.isPackageInstalled(software.getPackageName(), requireContext().getPackageManager())) {
+                if (DownloadHelper.isVersionHigher(software.getPackageName(), requireContext().getPackageManager(), software.getAppVersion())) {
                     DownloadHelper.installApp(software.getLink(), requireContext());
                 } else {
-                    DownloadHelper.openApp(software.getType(), requireContext());
+                    DownloadHelper.openApp(software.getPackageName(), requireContext());
                 }
             } else if (DownloadHelper.isFileDownloaded(software.getLink(), requireContext())) {
                 DownloadHelper.installApp(software.getLink(), requireContext());
             } else {
-                DownloadHelper.downloadFile(software.getLink(), software.getType(), requireContext());
+                DownloadHelper.downloadFile(software.getLink(), software.getPackageName(), requireContext());
+                binding.progressBar.setVisibility(View.VISIBLE);
             }
         });
     }

@@ -71,7 +71,7 @@ public class DownloadHelper {
 
     public static void uninstallApp(String type, Context requireContext) {
         Uri packageURI = Uri.parse("package:"+type);
-        Intent intent = new Intent(Intent.ACTION_DELETE, packageURI);
+        Intent intent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageURI);
         try {
             requireContext.startActivity(intent);
         } catch (ActivityNotFoundException e) {

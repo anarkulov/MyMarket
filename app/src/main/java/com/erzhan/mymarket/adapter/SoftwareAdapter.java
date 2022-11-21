@@ -16,6 +16,7 @@ import com.erzhan.mymarket.ext.ViewExt;
 import com.erzhan.mymarket.interf.OnClickListeners;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SoftwareAdapter extends RecyclerView.Adapter<SoftwareAdapter.SoftwareViewHolder> {
 
@@ -29,13 +30,14 @@ public class SoftwareAdapter extends RecyclerView.Adapter<SoftwareAdapter.Softwa
 
     public class SoftwareViewHolder extends RecyclerView.ViewHolder {
         ImageView ivLogo, ivStatus;
-        TextView tvTitle, tvDescription;
+        TextView tvTitle, tvDescription, tvStatus;
 
         public SoftwareViewHolder(@NonNull View itemView) {
             super(itemView);
 
             ivLogo = itemView.findViewById(R.id.iv_logo);
             ivStatus = itemView.findViewById(R.id.iv_status);
+            tvStatus = itemView.findViewById(R.id.tv_status);
             tvTitle = itemView.findViewById(R.id.tv_title);
             tvDescription = itemView.findViewById(R.id.tv_description);
         }
@@ -52,14 +54,18 @@ public class SoftwareAdapter extends RecyclerView.Adapter<SoftwareAdapter.Softwa
     public void onBindViewHolder(@NonNull SoftwareAdapter.SoftwareViewHolder holder, int position) {
         Software softwareItem = softwareList.get(holder.getAdapterPosition());
 
-        if (DownloadHelper.isPackageInstalled(softwareItem.getType(), holder.itemView.getContext().getPackageManager())) {
+        if (DownloadHelper.isPackageInstalled(softwareItem.getPackageName(), holder.itemView.getContext().getPackageManager())) {
             holder.ivStatus.setImageResource(R.drawable.ic_installed);
+            holder.tvStatus.setText(R.string.installed);
         } else if (DownloadHelper.isFileDownloaded(softwareItem.getLink(), holder.itemView.getContext())) {
             holder.ivStatus.setImageResource(R.drawable.ic_downloaded);
-        } else if (DownloadHelper.isVersionHigher(softwareItem.getType(), holder.itemView.getContext().getPackageManager(), softwareItem.getAppVersion())) {
+            holder.tvStatus.setText(R.string.downloaded);
+        } else if (DownloadHelper.isVersionHigher(softwareItem.getPackageName(), holder.itemView.getContext().getPackageManager(), softwareItem.getAppVersion())) {
             holder.ivStatus.setImageResource(R.drawable.ic_update);
+            holder.tvStatus.setText(R.string.update);
         } else {
             holder.ivStatus.setImageResource(R.drawable.ic_download);
+            holder.tvStatus.setText(R.string.download);
         }
 
         ViewExt.loadUrl(holder.ivLogo, softwareItem.getLogo50Link());
