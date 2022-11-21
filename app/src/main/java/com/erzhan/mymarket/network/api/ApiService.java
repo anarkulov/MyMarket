@@ -1,4 +1,4 @@
-package com.erzhan.mymarket.api;
+package com.erzhan.mymarket.network.api;
 
 import com.erzhan.mymarket.data.models.Software;
 

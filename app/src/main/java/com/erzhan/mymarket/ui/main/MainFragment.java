@@ -1,5 +1,6 @@
 package com.erzhan.mymarket.ui.main;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;

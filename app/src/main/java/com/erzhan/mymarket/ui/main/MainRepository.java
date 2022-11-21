@@ -7,9 +7,9 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.erzhan.mymarket.api.ApiService;
-import com.erzhan.mymarket.api.RetrofitApiClient;
 import com.erzhan.mymarket.data.models.Software;
+import com.erzhan.mymarket.network.api.ApiService;
+import com.erzhan.mymarket.network.api.RetrofitApiClient;
 
 import java.util.List;
 

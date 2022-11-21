@@ -1,4 +1,4 @@
-package com.erzhan.mymarket.api;
+package com.erzhan.mymarket.network.api;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
