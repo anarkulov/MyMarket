@@ -36,10 +36,11 @@ public class SoftwareDetailFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         navArgs = SoftwareDetailFragmentArgs.fromBundle(getArguments());
+        mViewModel.getSoftwareDetail(navArgs.getType());
     }
 
     private void initViewModels() {
-        mViewModel.getSoftwareDetail(navArgs.getType()).observe(getViewLifecycleOwner(), software -> {
+        mViewModel.getSoftwareDetail().observe(getViewLifecycleOwner(), software -> {
             if (software != null) {
                 setData(software);
             }
@@ -142,10 +143,10 @@ public class SoftwareDetailFragment extends Fragment {
             binding = FragmentSoftwareDetailBinding.inflate(inflater, container, false);
             view = binding.getRoot();
             initView();
-            initViewModels();
         } else {
             binding = FragmentSoftwareDetailBinding.bind(view);
         }
+        initViewModels();
         return binding.getRoot();
     }
 

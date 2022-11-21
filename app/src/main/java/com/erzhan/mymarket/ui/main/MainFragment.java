@@ -75,10 +75,11 @@ public class MainFragment extends Fragment {
             binding = FragmentMainBinding.inflate(inflater, container, false);
             view = binding.getRoot();
             initViews();
-            initViewModels();
         } else {
             binding = FragmentMainBinding.bind(view);
+            mViewModel.getSoftwareList();
         }
+        initViewModels();
         return binding.getRoot();
     }
 }

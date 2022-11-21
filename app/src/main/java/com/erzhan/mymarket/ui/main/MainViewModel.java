@@ -11,6 +11,7 @@ public class MainViewModel extends ViewModel {
 
     private MainRepository mainRepository;
     private LiveData<List<Software>> softwareListLiveData;
+    private LiveData<Software> softwareDetailLiveData;
 
     public MainViewModel() {
         mainRepository = new MainRepository();
@@ -24,7 +25,10 @@ public class MainViewModel extends ViewModel {
         return softwareListLiveData;
     }
 
-    public LiveData<Software> getSoftwareDetail(String type) {
-        return mainRepository.getSoftwareDetail(type);
+    public void getSoftwareDetail(String type) {
+        softwareDetailLiveData = mainRepository.getSoftwareDetail(type);
+    }
+    public LiveData<Software> getSoftwareDetail() {
+        return softwareDetailLiveData;
     }
 }
