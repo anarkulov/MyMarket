@@ -6,4 +6,5 @@
     <string name="update">Установить</string>
     <string name="uninstall">Удалить</string>
     <string name="description">Описание</string>
+    <string name="channel_id">MyMarket</string>
 </resources>

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.erzhan.mymarket.R;
 import com.erzhan.mymarket.data.models.Software;
-import com.erzhan.mymarket.ext.CommonExt;
+import com.erzhan.mymarket.utils.DownloadHelper;
 import com.erzhan.mymarket.ext.ViewExt;
 import com.erzhan.mymarket.interf.OnClickListeners;
 
@@ -52,11 +52,11 @@ public class SoftwareAdapter extends RecyclerView.Adapter<SoftwareAdapter.Softwa
     public void onBindViewHolder(@NonNull SoftwareAdapter.SoftwareViewHolder holder, int position) {
         Software softwareItem = softwareList.get(holder.getAdapterPosition());
 
-        if (CommonExt.isPackageInstalled(softwareItem.getType(), holder.itemView.getContext().getPackageManager())) {
+        if (DownloadHelper.isPackageInstalled(softwareItem.getType(), holder.itemView.getContext().getPackageManager())) {
             holder.ivStatus.setImageResource(R.drawable.ic_installed);
-        } else if (CommonExt.isFileDownloaded(softwareItem.getLink())) {
+        } else if (DownloadHelper.isFileDownloaded(softwareItem.getLink(), holder.itemView.getContext())) {
             holder.ivStatus.setImageResource(R.drawable.ic_downloaded);
-        } else if (CommonExt.isVersionHigher(softwareItem.getType(), holder.itemView.getContext().getPackageManager(), softwareItem.getAppVersion())) {
+        } else if (DownloadHelper.isVersionHigher(softwareItem.getType(), holder.itemView.getContext().getPackageManager(), softwareItem.getAppVersion())) {
             holder.ivStatus.setImageResource(R.drawable.ic_update);
         } else {
             holder.ivStatus.setImageResource(R.drawable.ic_download);
