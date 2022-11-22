@@ -55,14 +55,16 @@ public class SoftwareAdapter extends RecyclerView.Adapter<SoftwareAdapter.Softwa
         Software softwareItem = softwareList.get(holder.getAdapterPosition());
 
         if (DownloadHelper.isPackageInstalled(softwareItem.getPackageName(), holder.itemView.getContext().getPackageManager())) {
-            holder.ivStatus.setImageResource(R.drawable.ic_installed);
-            holder.tvStatus.setText(R.string.installed);
+            if (DownloadHelper.isVersionHigher(softwareItem.getPackageName(), holder.itemView.getContext().getPackageManager(), softwareItem.getAppVersion())) {
+                holder.ivStatus.setImageResource(R.drawable.ic_update);
+                holder.tvStatus.setText(R.string.update);
+            } else {
+                holder.ivStatus.setImageResource(R.drawable.ic_installed);
+                holder.tvStatus.setText(R.string.installed);
+            }
         } else if (DownloadHelper.isFileDownloaded(softwareItem.getLink(), holder.itemView.getContext())) {
             holder.ivStatus.setImageResource(R.drawable.ic_downloaded);
             holder.tvStatus.setText(R.string.downloaded);
-        } else if (DownloadHelper.isVersionHigher(softwareItem.getPackageName(), holder.itemView.getContext().getPackageManager(), softwareItem.getAppVersion())) {
-            holder.ivStatus.setImageResource(R.drawable.ic_update);
-            holder.tvStatus.setText(R.string.update);
         } else {
             holder.ivStatus.setImageResource(R.drawable.ic_download);
             holder.tvStatus.setText(R.string.download);

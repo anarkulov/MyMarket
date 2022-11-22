@@ -121,7 +121,7 @@ public class SoftwareDetailFragment extends Fragment {
         binding.btnDownloadInstallUpdate.setOnClickListener(v -> {
             if (DownloadHelper.isPackageInstalled(software.getPackageName(), requireContext().getPackageManager())) {
                 if (DownloadHelper.isVersionHigher(software.getPackageName(), requireContext().getPackageManager(), software.getAppVersion())) {
-                    DownloadHelper.installApp(software.getLink(), requireContext());
+                    DownloadHelper.downloadFile(software.getLink(), software.getPackageName(), requireContext());
                 } else {
                     DownloadHelper.openApp(software.getPackageName(), requireContext());
                 }

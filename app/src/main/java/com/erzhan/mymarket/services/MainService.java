@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 import com.erzhan.mymarket.MainActivity;
 import com.erzhan.mymarket.R;
 
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -83,6 +84,10 @@ public class MainService extends Service {
 
         DownloadManager downloadManager = (DownloadManager) getApplication().getSystemService(Context.DOWNLOAD_SERVICE);
         Uri downloadUri = Uri.parse(downloadUrl);
+        File file = new File(destinationPath);
+        if (file.exists()) {
+            file.delete();
+        }
 
         Log.d("TAG", "FileDestinationPath: " + destinationPath + "\nUri: " + uri + "\nFile: " + downloadUri);
 
