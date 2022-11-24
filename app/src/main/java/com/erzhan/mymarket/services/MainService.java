@@ -70,7 +70,7 @@ public class MainService extends Service {
             String destinationPath = intent.getStringExtra("destinationPath");
             String title = destinationPath.substring(destinationPath.lastIndexOf("/") + 1);
             String type = intent.getStringExtra("type");
-            download(downloadUrl, destinationPath, type);
+            downloadApkFromUrl(downloadUrl, destinationPath, type);
             start(title, type);
         } else {
             stopSelf();
@@ -79,7 +79,7 @@ public class MainService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void download(String downloadUrl, String destinationPath, String type) {
+    private void downloadApkFromUrl(String downloadUrl, String destinationPath, String type) {
         Uri uri = Uri.parse("file://" + destinationPath);
 
         DownloadManager downloadManager = (DownloadManager) getApplication().getSystemService(Context.DOWNLOAD_SERVICE);

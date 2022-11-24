@@ -26,7 +26,7 @@ public class SoftwareDetailFragment extends Fragment {
     private FragmentSoftwareDetailBinding binding;
     private View view;
     private Software software;
-    private DownloadReceiver receiver;
+    private DownloadReceiver downloadReceiver;
 
     public SoftwareDetailFragment() {
     }
@@ -52,14 +52,14 @@ public class SoftwareDetailFragment extends Fragment {
         binding.tvTitle.setText(software.getTitle());
         binding.tvDescription.setText(software.getDescription());
         binding.tvVersion.setText(software.getAppVersion());
-        ViewExt.loadUrl(binding.ivLogo, software.getLogo50Link());
+        ViewExt.loadImageUrlToImageView(binding.ivLogo, software.getLogo50Link());
 
-        checkForStatus();
+        checkForSoftwareDownloadStatus();
 
         initListeners();
     }
 
-    private void checkForStatus() {
+    private void checkForSoftwareDownloadStatus() {
         if (software == null) return;
         if (DownloadHelper.isPackageInstalled(software.getPackageName(), requireContext().getPackageManager())) {
             binding.btnUninstall.setVisibility(View.VISIBLE);
@@ -86,7 +86,7 @@ public class SoftwareDetailFragment extends Fragment {
     }
 
     private void initListeners() {
-        receiver = new DownloadReceiver() {
+        downloadReceiver = new DownloadReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String type = intent.getStringExtra("type");
@@ -101,13 +101,13 @@ public class SoftwareDetailFragment extends Fragment {
                         binding.btnDownloadInstallUpdate.setEnabled(true);
                         binding.progressBar.setVisibility(View.INVISIBLE);
                         DownloadHelper.stopDownloadService(requireContext());
-                        checkForStatus();
+                        checkForSoftwareDownloadStatus();
                         mViewModel.getSoftwareList();
                     }
                 }
             }
         };
-        requireContext().registerReceiver(receiver, new IntentFilter("download_progress"));
+        requireContext().registerReceiver(downloadReceiver, new IntentFilter("download_progress"));
 
         binding.actionBack.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
 
@@ -158,17 +158,17 @@ public class SoftwareDetailFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (receiver != null) {
-            requireContext().unregisterReceiver(receiver);
+        if (downloadReceiver != null) {
+            requireContext().unregisterReceiver(downloadReceiver);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        checkForStatus();
-        if (receiver != null) {
-            requireContext().registerReceiver(receiver, new IntentFilter("download_progress"));
+        checkForSoftwareDownloadStatus();
+        if (downloadReceiver != null) {
+            requireContext().registerReceiver(downloadReceiver, new IntentFilter("download_progress"));
         }
     }
 }

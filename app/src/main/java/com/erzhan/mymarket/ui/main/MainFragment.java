@@ -1,31 +1,24 @@
 package com.erzhan.mymarket.ui.main;
 
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.viewbinding.ViewBinding;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.erzhan.mymarket.R;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.erzhan.mymarket.adapter.SoftwareAdapter;
 import com.erzhan.mymarket.data.models.Software;
 import com.erzhan.mymarket.databinding.FragmentMainBinding;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainFragment extends Fragment {
@@ -41,7 +34,7 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         softwareList = new ArrayList<>();
-        softwareAdapter = new SoftwareAdapter(softwareList, this::onItemClick);
+        softwareAdapter = new SoftwareAdapter(softwareList, this::onSoftwareItemClick);
         mViewModel.getSoftwareList();
     }
 
@@ -50,8 +43,8 @@ public class MainFragment extends Fragment {
         binding.recyclerView.setAdapter(softwareAdapter);
     }
 
-    private void onItemClick(String type) {
-        Log.d("TAG", "onItemClick: " + type);
+    private void onSoftwareItemClick(String type) {
+        Log.d("TAG", "onSoftwareItemClick: " + type);
 
         Navigation.findNavController(binding.getRoot()).navigate(MainFragmentDirections.actionMainFragmentToSoftwareDetailFragment(type));
     }

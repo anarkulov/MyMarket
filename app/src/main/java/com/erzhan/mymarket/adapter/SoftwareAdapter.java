@@ -16,7 +16,6 @@ import com.erzhan.mymarket.ext.ViewExt;
 import com.erzhan.mymarket.interf.OnClickListeners;
 
 import java.util.List;
-import java.util.Objects;
 
 public class SoftwareAdapter extends RecyclerView.Adapter<SoftwareAdapter.SoftwareViewHolder> {
 
@@ -70,7 +69,7 @@ public class SoftwareAdapter extends RecyclerView.Adapter<SoftwareAdapter.Softwa
             holder.tvStatus.setText(R.string.download);
         }
 
-        ViewExt.loadUrl(holder.ivLogo, softwareItem.getLogo50Link());
+        ViewExt.loadImageUrlToImageView(holder.ivLogo, softwareItem.getLogo50Link());
         holder.tvTitle.setText(softwareItem.getTitle());
         holder.tvDescription.setText(softwareItem.getDescription());
         holder.itemView.setOnClickListener(v -> onItemClickListener.onItemClick(softwareItem.getType()));

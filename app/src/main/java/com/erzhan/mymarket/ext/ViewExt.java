@@ -2,8 +2,6 @@ package com.erzhan.mymarket.ext;
 
 import android.view.View;
 
-import androidx.core.content.ContextCompat;
-
 import com.bumptech.glide.Glide;
 import com.erzhan.mymarket.R;
 
@@ -13,7 +11,7 @@ public class ViewExt {
         view.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
-    public static void loadUrl(View view, String url) {
+    public static void loadImageUrlToImageView(View view, String url) {
         if (url == null || url.isEmpty()) {
             Glide.with(view.getContext())
                     .load(R.drawable.ic_image_placeholder)
